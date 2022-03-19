@@ -34,12 +34,14 @@ elif [[ "${ARGV0}" != "" ]]; then
     executable=$(which "${ARGV0}")
 fi
 
-# Wrap the call to Python in order to mimic a call from the source
-# executable ($ARGV0), but potentially located outside of the Python
-# install ($PYTHONHOME)
+# This is a reimplementation of tools/start_client.sh from the base repository
+# The UI build was performed during AppImage build, so we skip that step
 (
+	set -e -x
 	export PATH="${APPDIR}/usr/bin:${PATH}"
-	exec -a "${executable}" "$APPDIR/opt/randovania/tools/start_client.sh"
+	. "$APPDIR/opt/randovania/venv/bin/activate"
+	cd "$APPDIR/opt/randovania"
+	python3 -m randovania gui --preview main
 )
 exit "$?"
 
