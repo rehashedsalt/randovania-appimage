@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<component type="desktop-application">
-	<id>randovania</id>
+	<id>org.randovania.randovania</id>
 	<metadata_license>MIT</metadata_license>
 	<project_license>GPL-3.0+</project_license>
 	<name>Randovania</name>
@@ -15,7 +15,7 @@
 		</ul>
 		<p>So have fun and start randomizing.</p>
 	</description>
-	<launchable type="desktop-id">randovania.desktop</launchable>
+	<launchable type="desktop-id">org.randovania.randovania.desktop</launchable>
 	<url type="homepage">https://github.com/randovania/randovania</url>
 	<provides>
 		<binary>randovania</binary>
