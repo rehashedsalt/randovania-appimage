@@ -93,4 +93,4 @@ rm -rf \
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
 chmod +x appimagetool*.AppImage
-./appimagetool-x86_64.AppImage squashfs-root ../"$outdir"/"Randovania-$randovania_git_ref.AppImage"
+./appimagetool-x86_64.AppImage squashfs-root ../"$outdir"/"Randovania-$randovania_git_ref-amd64.AppImage"
