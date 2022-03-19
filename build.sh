@@ -15,6 +15,7 @@ set -e
 # Configuration vars
 workdir="work"
 python_appimage="https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.10-cp39-cp39-manylinux1_x86_64.AppImage"
+appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 randovania_location="/opt/randovania"
 randovania_git_uri="https://github.com/randovania/randovania"
 randovania_git_ref="v4.1.1"
@@ -48,7 +49,7 @@ git -C randovania checkout "$randovania_git_ref"
 
 # Make a directory for Randovania in the image and sync it over
 mkdir -p squashfs-root/"$randovania_location"
-rsync -aHS --exclude={.git} randovania/ squashfs-root/"$randovania_location"
+rsync -a --exclude={.git} randovania/ squashfs-root/"$randovania_location"
 
 # Install Randovania
 pushd squashfs-root/"$randovania_location"
@@ -64,5 +65,12 @@ cat > randovania/data/configuration.json << EOF
 EOF
 popd
 
-# We're all wrapped up; time to modify AppRun to start Randovania
-cp ../apprun-randovania.sh "$AppRun" -f
+# We're all wrapped up; time to copy in some things
+rsync -a ../overlay/ squashfs-root/
+rm \
+	squashfs-root/usr/share/metainfo/python*.appdata.xml
+
+# And finally build our AppImage!
+wget "$appimagetool_appimage"
+chmod +x appimagetool*.AppImage
+./appimagetool-x86_64.AppImage squashfs-root Randovania.AppImage
