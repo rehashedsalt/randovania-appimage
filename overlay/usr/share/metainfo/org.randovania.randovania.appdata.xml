@@ -17,7 +17,4 @@
 	</description>
 	<launchable type="desktop-id">org.randovania.randovania.desktop</launchable>
 	<url type="homepage">https://github.com/randovania/randovania</url>
-	<provides>
-		<binary>randovania</binary>
-	</provides>
 </component>
