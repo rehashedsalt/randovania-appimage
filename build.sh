@@ -14,6 +14,7 @@ set -e
 
 # Configuration vars
 workdir="work"
+outdir="out"
 python_appimage="https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.10-cp39-cp39-manylinux1_x86_64.AppImage"
 appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 randovania_location="/opt/randovania"
@@ -25,6 +26,7 @@ AppRun="squashfs-root/AppRun"
 
 # Make our working directory, cd in
 mkdir -p "$workdir"
+mkdir -p "$outdir"
 pushd "$workdir"
 AppRun="$PWD/$AppRun"
 
@@ -74,4 +76,4 @@ rm \
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
 chmod +x appimagetool*.AppImage
-./appimagetool-x86_64.AppImage squashfs-root "Randovania-$randovania_git_ref.AppImage"
+./appimagetool-x86_64.AppImage squashfs-root ../"$outdir"/"Randovania-$randovania_git_ref.AppImage"
