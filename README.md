@@ -8,6 +8,12 @@ Clone the repo, `cd` into it, and invoke `build.sh`. The host must have basic Li
 
 The script will automatically download and extract a release of [python-appimage](https://github.com/niess/python-appimage), extract it, stick a particular ref of Randovania in it, and zip it up.
 
+The output AppImage will be at:
+
+```
+work/Randovania-${randovania_git_ref}.AppImage"
+```
+
 ## TODO
 
 * Bundle in Mono (God have mercy on my soul)
@@ -16,3 +22,4 @@ The script will automatically download and extract a release of [python-appimage
 * Bundle in the Randovania icon
 * Improve these docs
 * Trim the heck out of the image
+* Set up auto-update (and also figure out how to set up auto-update, docs say it's a thing)
