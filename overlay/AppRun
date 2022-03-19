@@ -13,18 +13,6 @@ export TKPATH="${TK_LIBRARY}"
 # Export SSL certificate
 export SSL_CERT_FILE="${APPDIR}/opt/_internal/certs.pem"
 
-# Call the entry point
-for opt in "$@"
-do
-    [ "${opt:0:1}" != "-" ] && break
-    if [[ "${opt}" =~ "I" ]] || [[ "${opt}" =~ "E" ]]; then
-        # Environment variables are disabled ($PYTHONHOME). Let's run in a safe
-        # mode from the raw Python binary inside the AppImage
-        "$APPDIR/opt/python3.9/bin/python3.9" "$@"
-        exit "$?"
-    fi
-done
-
 # Get the executable name, i.e. the AppImage or the python binary if running from an
 # extracted image
 executable="${APPDIR}/opt/python3.9/bin/python3.9"
