@@ -71,7 +71,8 @@ popd
 rsync -a ../overlay/ squashfs-root/
 rm \
 	squashfs-root/usr/share/applications/python*.desktop \
-	squashfs-root/usr/share/metainfo/python*.appdata.xml
+	squashfs-root/usr/share/metainfo/python*.appdata.xml \
+	squashfs-root/python*.desktop
 
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
