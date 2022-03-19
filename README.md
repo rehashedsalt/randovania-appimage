@@ -14,6 +14,15 @@ The output AppImage will be at:
 out/Randovania-${randovania_git_ref}.AppImage"
 ```
 
+## Build Requirements
+
+A Linux distro with Bash, wget, rsync, git, and coreutils
+
+## Runtime Requirements
+
+* Dolphin (if you're running a GameCube game)
+* Mono (mono-complete, not just the base runtime)
+
 ## TODO
 
 * Bundle in Mono (God have mercy on my soul)

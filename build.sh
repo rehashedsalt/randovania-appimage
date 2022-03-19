@@ -15,8 +15,10 @@ set -e
 # Configuration vars
 workdir="work"
 outdir="out"
+
 python_appimage="https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.10-cp39-cp39-manylinux1_x86_64.AppImage"
 appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+
 randovania_location="/opt/randovania"
 randovania_git_uri="https://github.com/randovania/randovania"
 randovania_git_ref="v4.1.1"
@@ -44,6 +46,9 @@ chmod +x python*-manylinux1_x86_64.AppImage
 PATH="$PWD"/squashfs-root/usr/bin:"$PATH"
 which python
 
+# Install Mono into the image
+# TODO: That. Apparently it's huge and involved.
+
 # Grab Randovania, check out the ref we want
 git clone "$randovania_git_uri" randovania
 git -C randovania fetch --tags
@@ -69,11 +74,13 @@ popd
 
 # We're all wrapped up; time to copy in some things
 rsync -a ../overlay/ squashfs-root/
+# Remove configuration from the upstream python AppImage
 rm \
 	squashfs-root/usr/share/applications/python*.desktop \
 	squashfs-root/usr/share/icons/hicolor/256x256/apps/python*.png \
 	squashfs-root/usr/share/metainfo/python*.appdata.xml \
-	squashfs-root/python*.desktop
+	squashfs-root/python*.desktop \
+	squashfs-root/python*.png
 
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
