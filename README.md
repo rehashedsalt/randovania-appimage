@@ -33,3 +33,4 @@ A Linux distro with Bash, wget, rsync, git, and coreutils
 * Improve these docs
 * Trim the heck out of the image, builds right now are like 200MB(!)
 * Set up auto-update (and also figure out how to set up auto-update, docs say it's a thing)
+ * https://github.com/AppImage/AppImageSpec/blob/master/draft.md#github-releases - Apparently it's a one-line configuration to get it to hook into GH releases
