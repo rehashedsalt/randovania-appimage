@@ -68,9 +68,10 @@ popd
 # We're all wrapped up; time to copy in some things
 rsync -a ../overlay/ squashfs-root/
 rm \
+	squashfs-root/usr/share/applications/python*.desktop \
 	squashfs-root/usr/share/metainfo/python*.appdata.xml
 
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
 chmod +x appimagetool*.AppImage
-./appimagetool-x86_64.AppImage squashfs-root Randovania.AppImage
+./appimagetool-x86_64.AppImage squashfs-root "Randovania-$randovania_git_ref.AppImage"
