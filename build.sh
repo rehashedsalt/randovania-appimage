@@ -82,7 +82,7 @@ rm \
 	squashfs-root/python*.desktop \
 	squashfs-root/python*.png
 # Trim the fat
-rm -r \
+rm -rf \
 	squashfs-root/opt/randovania/.git* \
 	squashfs-root/opt/randovania/pylintrc \
 	squashfs-root/opt/randovania/requirements* \
