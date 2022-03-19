@@ -20,6 +20,7 @@ out/Randovania-${randovania_git_ref}.AppImage"
 * Make the .desktop file in the AppImage actually point to randovania
 * Make sure our MetaData is all correct
 * Bundle in the Randovania icon
+* See if we can get the icon to display on all DEs
 * Improve these docs
-* Trim the heck out of the image
+* Trim the heck out of the image, builds right now are like 200MB(!)
 * Set up auto-update (and also figure out how to set up auto-update, docs say it's a thing)
