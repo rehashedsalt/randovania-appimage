@@ -5,4 +5,3 @@ Exec=AppRun
 Comment=A randomizer platform for a multitude of games
 Icon=python
 Categories=Game;
-Terminal=true
