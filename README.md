@@ -11,7 +11,7 @@ The script will automatically download and extract a release of [python-appimage
 The output AppImage will be at:
 
 ```
-out/Randovania-${randovania_git_ref}.AppImage"
+out/Randovania-${randovania_git_ref}-amd64.AppImage"
 ```
 
 ## Build Requirements
