@@ -81,6 +81,10 @@ rm \
 	squashfs-root/usr/share/metainfo/python*.appdata.xml \
 	squashfs-root/python*.desktop \
 	squashfs-root/python*.png
+# Trim the fat
+rm -r \
+	squashfs-root/opt/randovania/venv/lib/python3.9/site-packages/PySide2/Qt/lib/libQt5WebEngineCore.so.5 \
+	squashfs-root/opt/randovania/venv/lib/python3.9/site-packages/PySide2/Qt/translations/qtwebengine_locales
 
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
