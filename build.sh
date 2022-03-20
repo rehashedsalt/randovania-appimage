@@ -18,8 +18,9 @@ outdir="out"
 
 python_appimage="https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.10-cp39-cp39-manylinux1_x86_64.AppImage"
 appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+nuget_url="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 
-mono_target="mono-5.10.1-ubuntu-18.04-x64"
+mono_target="mono-6.8.0-ubuntu-16.04-x64"
 mono_mkbundle_args="-v --simple --no-machine-config --no-config --deps --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
 
 randovania_location="/opt/randovania"
@@ -67,6 +68,8 @@ rsync -a ../overlay/ squashfs-root/
 #  - There's a hardcoded library path at the top of the script for liblzo2
 #    That file needs to be present.
 #
+#  - The .config files that add a dllmap for liblzo2 are required at build time
+#
 #  - The host has to have mono-complete installed (package name is a debianism,
 #    but the long and short of it is that you need the full runtime and dev
 #    tooling
@@ -82,18 +85,24 @@ rsync -a ../overlay/ squashfs-root/
 mkbundle --fetch-target "$mono_target"
 
 # EchoesMenu.exe
-mv squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe{,.mono}
-mkbundle $mono_mkbundle_args --cross "$mono_target" \
-	squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe.mono \
-	-o squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe
-chmod +x squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe
+pushd squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu
+mkbundle $mono_mkbundle_args --cross "$mono_target" EchoesMenu.exe -o echoes-menu
+popd
 
 # Randomizer.exe
-mv squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe{,.mono}
-mkbundle $mono_mkbundle_args --cross "$mono_target" \
-	squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe.mono \
-	-o squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe
-chmod +x squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe
+# This one is slightly more complex, as we have to add several dependencies
+# via nuget.exe since they're either third-party or just straight up not
+# included in the cross-compile runtimes for some reason
+wget "$nuget_url"
+mkdir nuget
+mono nuget.exe install NewtonSoft.json -OutputDirectory nuget
+mono nuget.exe install Novell.Directory.Ldap -OutputDirectory nuget
+nugetdir="$PWD/nuget"
+pushd squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/
+mkbundle $mono_mkbundle_args --cross "$mono_target" Randomizer.exe -o randomizer \
+	-L "$nugetdir"/Newtonsoft.Json.*/lib/net45 \
+	-L "$nugetdir"/Novell.Directory.Ldap.*/lib
+popd
 
 # Install Randovania
 pushd squashfs-root/"$randovania_location"
