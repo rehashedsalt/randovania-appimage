@@ -24,7 +24,6 @@ out/Randovania-${randovania_git_ref}-amd64.AppImage"
 
 * Dolphin (if you're running a GameCube game)
 * Not Mono
-* Not liblzo2 (at least locally)
 
 ## TODO
 
