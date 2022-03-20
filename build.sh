@@ -85,7 +85,7 @@ rsync -a ../overlay/ squashfs-root/
 
 # EchoesMenu.exe
 pushd squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu
-mkbundle $mono_mkbundle_args EchoesMenu.exe -o echoes-menu
+mkbundle $mono_mkbundle_args --config EchoesMenu.exe.config EchoesMenu.exe -o echoes-menu
 popd
 
 # Randomizer.exe
@@ -98,7 +98,7 @@ mono nuget.exe install NewtonSoft.json -OutputDirectory nuget
 #mono nuget.exe install Novell.Directory.Ldap -OutputDirectory nuget
 nugetdir="$PWD/nuget"
 pushd squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/
-mkbundle $mono_mkbundle_args Randomizer.exe -o randomizer \
+mkbundle $mono_mkbundle_args --config Randomizer.exe.config Randomizer.exe -o randomizer \
 	-L "$nugetdir"/Newtonsoft.Json.*/lib/net45 \
 	-L "$nugetdir"/Novell.Directory.Ldap.*/lib
 popd
