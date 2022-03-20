@@ -27,8 +27,6 @@ out/Randovania-${randovania_git_ref}-amd64.AppImage"
 
 ## TODO
 
-* Bundle in Mono (God have mercy on my soul)
- * Use mkbundle with a myriad of arguments (right now I'm up to `-v --simple --no-machine-config --no-config --deps -L /usr/lib/mono/4.5`) to avoid having to bring in an entire runtime. Builds against host libc.
 * Make the .desktop file in the AppImage actually point to randovania
 * Improve these docs
 * Trim the heck out of the image, builds right now are like 200MB(!)
