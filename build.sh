@@ -58,6 +58,9 @@ git -C randovania checkout "$randovania_git_ref"
 mkdir -p squashfs-root/"$randovania_location"
 rsync -a --exclude={.git} randovania/ squashfs-root/"$randovania_location"
 
+# Sync in our overlay
+rsync -a ../overlay/ squashfs-root/
+
 # Bundle up our Mono apps to avoid having to redistribute the Mono runtime
 # This depends on a few things on the host:
 #
@@ -106,8 +109,6 @@ cat > randovania/data/configuration.json << EOF
 EOF
 popd
 
-# We're all wrapped up; time to copy in some things
-rsync -a ../overlay/ squashfs-root/
 # Remove configuration from the upstream python AppImage
 rm \
 	squashfs-root/usr/share/applications/python*.desktop \
