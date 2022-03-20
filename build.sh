@@ -20,8 +20,8 @@ python_appimage="https://github.com/niess/python-appimage/releases/download/pyth
 appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 nuget_url="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 
-mono_target="mono-6.8.0-ubuntu-16.04-x64"
-mono_mkbundle_args="-v --simple --no-machine-config --no-config --deps --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
+mono_mkbundle_args="-v --simple --static --no-machine-config --no-config --deps --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
+mono_mkbundle_args="$mono_mkbundle_args -L /usr/lib/mono/4.5"
 
 randovania_location="/opt/randovania"
 randovania_git_uri="https://github.com/randovania/randovania"
@@ -82,11 +82,10 @@ rsync -a ../overlay/ squashfs-root/
 #
 # If all goes well, you'll get a static binary that runs on anything, no Mono
 # runtime required. No futzing with liblzo2 required. Just Werks.
-mkbundle --fetch-target "$mono_target"
 
 # EchoesMenu.exe
 pushd squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu
-mkbundle $mono_mkbundle_args --cross "$mono_target" EchoesMenu.exe -o echoes-menu
+mkbundle $mono_mkbundle_args EchoesMenu.exe -o echoes-menu
 popd
 
 # Randomizer.exe
@@ -96,10 +95,10 @@ popd
 wget "$nuget_url"
 mkdir nuget
 mono nuget.exe install NewtonSoft.json -OutputDirectory nuget
-mono nuget.exe install Novell.Directory.Ldap -OutputDirectory nuget
+#mono nuget.exe install Novell.Directory.Ldap -OutputDirectory nuget
 nugetdir="$PWD/nuget"
 pushd squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/
-mkbundle $mono_mkbundle_args --cross "$mono_target" Randomizer.exe -o randomizer \
+mkbundle $mono_mkbundle_args Randomizer.exe -o randomizer \
 	-L "$nugetdir"/Newtonsoft.Json.*/lib/net45 \
 	-L "$nugetdir"/Novell.Directory.Ldap.*/lib
 popd
