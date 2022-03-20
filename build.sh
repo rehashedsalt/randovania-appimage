@@ -21,6 +21,8 @@ appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download
 nuget_url="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 
 mono_mkbundle_args="-v --simple --static --no-machine-config --no-config --deps --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
+mono_mkbundle_args="$mono_mkbundle_args --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
+mono_mkbundle_args="$mono_mkbundle_args --library /usr/lib/libmono-native.so.0.0.0"
 mono_mkbundle_args="$mono_mkbundle_args -L /usr/lib/mono/4.5"
 
 randovania_location="/opt/randovania"
