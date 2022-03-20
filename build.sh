@@ -19,6 +19,9 @@ outdir="out"
 python_appimage="https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.10-cp39-cp39-manylinux1_x86_64.AppImage"
 appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 
+mono_target="mono-5.10.1-ubuntu-18.04-x64"
+mono_mkbundle_args="-v --simple --no-machine-config --no-config --deps --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
+
 randovania_location="/opt/randovania"
 randovania_git_uri="https://github.com/randovania/randovania"
 randovania_git_ref="v4.1.1"
@@ -46,9 +49,6 @@ chmod +x python*-manylinux1_x86_64.AppImage
 PATH="$PWD"/squashfs-root/usr/bin:"$PATH"
 which python
 
-# Install Mono into the image
-# TODO: That. Apparently it's huge and involved.
-
 # Grab Randovania, check out the ref we want
 git clone "$randovania_git_uri" randovania
 git -C randovania fetch --tags
@@ -57,6 +57,40 @@ git -C randovania checkout "$randovania_git_ref"
 # Make a directory for Randovania in the image and sync it over
 mkdir -p squashfs-root/"$randovania_location"
 rsync -a --exclude={.git} randovania/ squashfs-root/"$randovania_location"
+
+# Bundle up our Mono apps to avoid having to redistribute the Mono runtime
+# This depends on a few things on the host:
+#
+#  - There's a hardcoded library path at the top of the script for liblzo2
+#    That file needs to be present.
+#
+#  - The host has to have mono-complete installed (package name is a debianism,
+#    but the long and short of it is that you need the full runtime and dev
+#    tooling
+#
+#  - The host has a glibc version >= that of the platform in $mono_target
+#
+#  - The CLIENT has a glibc version >= that of the platform in $mono_target. I
+#    set it to what I did because it's almost a guarantee that that should be
+#    the case
+#
+# If all goes well, you'll get a static binary that runs on anything, no Mono
+# runtime required. No futzing with liblzo2 required. Just Werks.
+mkbundle --fetch-target "$mono_target"
+
+# EchoesMenu.exe
+mv squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe{,.mono}
+mkbundle $mono_mkbundle_args --cross "$mono_target" \
+	squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe.mono \
+	-o squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe
+chmod +x squashfs-root/"$randovania_location"/randovania/data/ClarisEchoesMenu/EchoesMenu.exe
+
+# Randomizer.exe
+mv squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe{,.mono}
+mkbundle $mono_mkbundle_args --cross "$mono_target" \
+	squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe.mono \
+	-o squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe
+chmod +x squashfs-root/"$randovania_location"/randovania/data/ClarisPrimeRandomizer/Randomizer.exe
 
 # Install Randovania
 pushd squashfs-root/"$randovania_location"
