@@ -5,5 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    cap_add:
+      - "SYS_ADMIN"
     volumes:
       - "./:/opt"
