@@ -26,9 +26,7 @@ randovania_git_ref="v4.1.1"
 
 mono_mkbundle_args="-v --simple --static --no-machine-config --no-config --deps"
 mono_mkbundle_args="$mono_mkbundle_args --library $(ldconfig -p | grep 'liblzo2.so' | head -n 1 | awk '{print $4}')"
-# Note: the name libmono-system-native.so here is a Debianism.
-# Other distributions may use libmono-native.so instead.
-mono_mkbundle_args="$mono_mkbundle_args --library $(ldconfig -p | grep 'libmono-system-native.so' | head -n 1 | awk '{print $4}')"
+mono_mkbundle_args="$mono_mkbundle_args --library $(ldconfig -p | grep 'libmono-native.so' | head -n 1 | awk '{print $4}')"
 mono_mkbundle_args="$mono_mkbundle_args -L /usr/lib/mono/4.5"
 
 # Derived/static vars
