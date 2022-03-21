@@ -1,6 +1,7 @@
-FROM debian:10
+FROM ubuntu:focal
 RUN	apt-get -y update && \
 	apt-get -y install \
+		fuse \
 		git \
 		liblzo2-2 \
 		mono-complete \
