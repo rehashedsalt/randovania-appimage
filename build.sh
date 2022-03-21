@@ -20,14 +20,16 @@ python_appimage="https://github.com/niess/python-appimage/releases/download/pyth
 appimagetool_appimage="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
 nuget_url="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 
-mono_mkbundle_args="-v --simple --static --no-machine-config --no-config --deps --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
-mono_mkbundle_args="$mono_mkbundle_args --library /usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0"
-mono_mkbundle_args="$mono_mkbundle_args --library /usr/lib/libmono-native.so.0.0.0"
-mono_mkbundle_args="$mono_mkbundle_args -L /usr/lib/mono/4.5"
-
 randovania_location="/opt/randovania"
 randovania_git_uri="https://github.com/randovania/randovania"
 randovania_git_ref="v4.1.1"
+
+mono_mkbundle_args="-v --simple --static --no-machine-config --no-config --deps"
+mono_mkbundle_args="$mono_mkbundle_args --library $(ldconfig -p | grep 'liblzo2.so' | head -n 1 | awk '{print $4}')"
+# Note: the name libmono-system-native.so here is a Debianism.
+# Other distributions may use libmono-native.so instead.
+mono_mkbundle_args="$mono_mkbundle_args --library $(ldconfig -p | grep 'libmono-system-native.so' | head -n 1 | awk '{print $4}')"
+mono_mkbundle_args="$mono_mkbundle_args -L /usr/lib/mono/4.5"
 
 # Derived/static vars
 AppRun="squashfs-root/AppRun"
