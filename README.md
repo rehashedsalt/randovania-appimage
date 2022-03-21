@@ -16,13 +16,12 @@ out/Randovania-${randovania_git_ref}-amd64.AppImage"
 
 ## Build Requirements
 
-* A Linux distro with Bash, wget, rsync, git, and coreutils
-* `mono-complete` (in Debian terms) installed
-* liblzo2 at `/usr/lib/x86_64-linux-gnu/liblzo2.so.2.0.0` (or you can modify the build script if the host has it elsewhere)
+* A Linux distro with Bash, wget, rsync, git, coreutils, mono-complete, and liblzo2-2
 
 ## Runtime Requirements
 
 * Dolphin (if you're running a GameCube game)
+* amd64 Linux and X11
 * Not Mono
 
 ## TODO
