@@ -27,9 +27,8 @@ fi
 (
 	set -e -x
 	export PATH="${APPDIR}/usr/bin:${PATH}"
-	. "$APPDIR/opt/randovania/venv/bin/activate"
 	cd "$APPDIR/opt/randovania"
-	python3 -m randovania gui --preview main
+	"$APPDIR/usr/bin/python3" -m randovania gui --preview main
 )
 exit "$?"
 

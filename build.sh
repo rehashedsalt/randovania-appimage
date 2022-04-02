@@ -107,12 +107,12 @@ popd
 
 # Install Randovania
 pushd squashfs-root/"$randovania_location"
-tools/prepare_virtual_env.sh
-# Drop to a subshell to build the UI real quick
-(
-	. venv/bin/activate
-	python setup.py build_ui
-)
+# Install dependencies
+python -c "import sys; assert sys.version_info[0:2] == (3, 9), 'Python 3.9 required'"
+python -m pip install --upgrade -r requirements-setuptools.txt
+python -m pip install --upgrade -r requirements-small.txt
+python -m pip install -e . -e ".[gui]"
+python setup.py build_ui
 # I'm not building a whole release just to get this one json file lol
 cat > randovania/data/configuration.json << EOF
 {"discord_client_id": 618134325921316864, "server_address": "https://randovania.metroidprime.run/randovania", "socketio_path": "/randovania/socket.io"}
