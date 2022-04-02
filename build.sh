@@ -108,7 +108,6 @@ popd
 # Install Randovania
 pushd squashfs-root/"$randovania_location"
 # Install dependencies
-python -c "import sys; assert sys.version_info[0:2] == (3, 9), 'Python 3.9 required'"
 python -m pip install --upgrade -r requirements-setuptools.txt
 python -m pip install --upgrade -r requirements-small.txt
 python -m pip install -e . -e ".[gui]"
