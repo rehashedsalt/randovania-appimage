@@ -138,4 +138,9 @@ rm -rf \
 # And finally build our AppImage!
 wget "$appimagetool_appimage"
 chmod +x appimagetool*.AppImage
-./appimagetool-x86_64.AppImage squashfs-root ../"$outdir"/"Randovania-$randovania_git_ref-amd64.AppImage"
+# Extract AIT
+# We have to do this because Docker build systems won't let us use FUSE to
+# actually run the appimage normally.
+mv squashfs-root rdv-root
+./appimagetool-x86_64.AppImage --appimage-extract
+./squashfs-root/AppRun rdv-root ../"$outdir"/"Randovania-$randovania_git_ref-amd64.AppImage"
