@@ -4,9 +4,7 @@ A set of build scripts to package [Randovania](https://github.com/randovania/ran
 
 ## Usage
 
-Clone the repo, `cd` into it, and invoke `build.sh`. The host must have basic Linux tooling such as Bash, wget, rsync, git, etc.
-
-The script will automatically download and extract a release of [python-appimage](https://github.com/niess/python-appimage), extract it, stick a particular ref of Randovania in it, and zip it up.
+Clone the repo and run `docker-compose up --build`. There's a Dockerfile in the root of the repository which will configure an Ubuntu 20.04 build image. Other operating systems are possible to build in, but `build.sh` will need to be modified because we use the system-wide Mono to make statically-linked(-ish) binaries out of the patchers.
 
 The output AppImage will be at:
 
@@ -14,15 +12,20 @@ The output AppImage will be at:
 out/Randovania-${randovania_git_ref}-amd64.AppImage"
 ```
 
-## Build Requirements
+## Non-Docker Usage
 
-* A Linux distro with Bash, wget, rsync, git, coreutils, mono-complete, and liblzo2-2
+Clone the repo, `cd` into it, and invoke `build.sh`. See the Dockerfile for build-time dependencies (all of them are). The builder user is not a requirement in non-Docker invocation.
 
-## Runtime Requirements
+The output AppImage will be at:
 
-* Dolphin (if you're running a GameCube game)
-* amd64 Linux and X11
-* Not Mono
+```
+out/Randovania-${randovania_git_ref}-amd64.AppImage"
+```
+
+## Licensing
+
+* We redistribute Mono as distributed by Canonical in the Ubuntu repositories. Mono is licensed under the terms of the [MIT License](https://github.com/mono/mono/blob/main/LICENSE)
+* We obtain Newtonsoft.Json from NuGet. Newtonsoft.Json is licensed under the terms of the [MIT License](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md). NuGet is not bundled in the output image.
 
 ## TODO
 
